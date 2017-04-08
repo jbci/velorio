@@ -34,24 +34,12 @@ in_files.each do |file|
     start_time = start_time.to_f + end_time.to_f
   end
 end
-#print time_array;
 
-test_array = [
-  {channel: 1, start_time: 0, end_time: 5, start_level: 0, end_level: 100, slope: 20},
-  {channel: 2, start_time: 0, end_time: 7.5, start_level: 0, end_level: 100, slope:13.33},
-  {channel: 3, start_time: 0, end_time: 10, start_level: 0, end_level: 100, slope: 10},
-  {channel: 1, start_time: 5, end_time: 15, start_level: 100, end_level: 30, slope: -7},
-  {channel: 2, start_time: 7.5, end_time: 17.5, start_level: 100, end_level: 30, slope:-7},
-  {channel: 3, start_time: 10, end_time: 20, start_level: 100, end_level: 30, slope: -7}
-]
-
-time_array = test_array
 
 time_array.sort_by! {|k| k[:start_time].to_f}
-uniq_channels =
 time_array.uniq {|i| i[:start_time]}.each do |st|
   tmp_st =  st[:start_time]
-  #p "time_array - start at: " + tmp_st.to_s + " seconds"
+  p "time_array - start at: " + tmp_st.to_s + " seconds"
 
   tmp = time_array.select {|section| section[:start_time] == tmp_st }
   tmp.sort_by! {|k| k[:end_time].to_f}
@@ -61,10 +49,9 @@ time_array.uniq {|i| i[:start_time]}.each do |st|
       unique_ets.each_with_index do |et, index|
         tmp_et= et[:end_time]
         tmp_2 = tmp.select {|section| section[:end_time] == tmp_et }
-        #p '   -   end at: ' + tmp_et.to_s + ' seconds'
+        p 'tmp -   end at: ' + tmp_et.to_s + ' seconds'
         new_tmp_section = []
         tmp_2.each do |i|
-
           new_tmp_section.push({new_section: true, channel: i[:channel], start_time: tmp_st, end_time: tmp_et, start_level: i[:start_level], end_level: i[:end_level], slope: i[:slope]})
         end
         final_array << new_tmp_section
@@ -76,9 +63,17 @@ end
 
 final_array.sort_by! {|k| k.first[:start_time].to_f}
 final_array.each do |element|
-  #p element
+  p element
 end
 
+test_array = [
+  {channel: 1, start_time: 0, end_time: 5, start_level: 0, end_level: 100, slope: 20},
+  {channel: 2, start_time: 0, end_time: 7.5, start_level: 0, end_level: 100, slope:13.33},
+  {channel: 3, start_time: 0, end_time: 10, start_level: 0, end_level: 100, slope: 10},
+  {channel: 1, start_time: 5, end_time: 15, start_level: 100, end_level: 30, slope: -7},
+  {channel: 2, start_time: 7.5, end_time: 17.5, start_level: 100, end_level: 30, slope:-7},
+  {channel: 3, start_time: 10, end_time: 20, start_level: 100, end_level: 30, slope: -7}
+]
 #
 # require 'serialport' # use Kernel::require on windows, works better.
 #
