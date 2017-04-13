@@ -6,7 +6,6 @@
 
 require 'absolute_time'
 
-start_time_b = AbsoluteTime.now
 
 start_level = 0
 start_time = 0
@@ -23,14 +22,14 @@ IO.foreach("input_test.txt") do |line|
 
   # p line
   # p 'ch: ' + channel.to_s + 'start_time: ' + start_time.to_s + ', end_time: ' + (start_time.to_f + end_time.to_f).to_s +
-  ', start_level: ' + start_level.to_s + ', end_level: ' + end_level.to_s  + ', slope: ' + slope.to_s
+  # ', start_level: ' + start_level.to_s + ', end_level: ' + end_level.to_s  + ', slope: ' + slope.to_s
 
   time_array.push({channel: channel, start_time: start_time, end_time: (start_time.to_f + end_time.to_f).to_s, start_level: start_level, end_level: end_level, slope: slope})
   #start_level = end_level
   start_time = start_time.to_i + end_time.to_i
 end
 #
-p time_array
+# p time_array
 
 require 'serialport' # use Kernel::require on windows, works better.
 
@@ -43,9 +42,12 @@ parity = SerialPort::NONE
 
 sp = SerialPort.new(port_str, baud_rate, data_bits, stop_bits, parity)
 
+start_time_b = AbsoluteTime.now
+
+
 time_array.each do |span|
   start_time_c = AbsoluteTime.now
-  # p 'span'
+   p 'span'
   ch = span[:channel]
   st = span[:start_time]
   et = span[:end_time]
@@ -57,7 +59,7 @@ time_array.each do |span|
   while (AbsoluteTime.now - start_time_b) < et.to_i do
     set_level = sl.to_f + (AbsoluteTime.now - start_time_c) * slope
     sp.write(ch.to_s + ' ' + (100 - set_level.to_i).to_s)
-    # p 'set_level : ' + set_level.to_s
+    p 'set_level : ' + set_level.to_s
     sleep 0.1
     # p et
     # p start_time_b

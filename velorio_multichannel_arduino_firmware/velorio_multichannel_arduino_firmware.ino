@@ -237,10 +237,10 @@ char buffer[] = {' ',' ',' ',' ',' ',' ',' '}; // Receive up to 7 bytes
  Serial.setTimeout(50);
  Serial.readBytesUntil('n', buffer, 7);
  int incomingValue = atoi(buffer);
-// Serial.print("channel: ");
-// Serial.println(channel);
-// Serial.print("value: ");
-// Serial.println(incomingValue);
+ Serial.print("channel: ");
+ Serial.println(channel);
+ Serial.print("value: ");
+ Serial.println(incomingValue);
   Serial.print(".");
   
   switch (channel) {

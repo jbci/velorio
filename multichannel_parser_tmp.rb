@@ -9,7 +9,7 @@ require 'absolute_time'
 start_time_b = AbsoluteTime.now
 
 
-time_array_1 = []
+time_array = []
 final_array= []
 
 in_files = ["input_test_1.txt", "input_test_2.txt", "input_test_3.txt"]
@@ -29,12 +29,12 @@ in_files.each do |file|
     # p line
     #p 'ch: ' + channel.to_s + ', start_time: ' + start_time.to_s + ', end_time: ' + (start_time.to_f + end_time.to_f).to_s + ', start_level: ' + start_level.to_s + ', end_level: ' + end_level.to_s  + ', slope: ' + slope.to_s
 
-    time_array_1.push({channel: channel, start_time: start_time, end_time: (start_time.to_f + end_time.to_f).to_s, start_level: start_level, end_level: end_level, slope: slope})
+    time_array.push({channel: channel, start_time: start_time, end_time: (start_time.to_f + end_time.to_f).to_s, start_level: start_level, end_level: end_level, slope: slope})
 
     start_time = start_time.to_f + end_time.to_f
   end
 end
-#print time_array_1;
+#print time_array;
 
 test_array = [
   {channel: 1, start_time: 0, end_time: 5, start_level: 0, end_level: 100, slope: 20},
@@ -44,15 +44,16 @@ test_array = [
   {channel: 2, start_time: 7.5, end_time: 17.5, start_level: 100, end_level: 30, slope:-7},
   {channel: 3, start_time: 10, end_time: 20, start_level: 100, end_level: 30, slope: -7}
 ]
-test_array = time_array_1
-time_array = []
+
+time_array_2 = []
+
 test_array.uniq { |h| h[:channel] }.each_with_index do |channel, channel_index|
   p "channel: " + channel.to_s
-  time_array << test_array.select  { |h| h[:channel] == channel[:channel] }.sort_by { |h| h[:start_time]}
+  time_array_2 << test_array.select  { |h| h[:channel] == channel[:channel] }.sort_by { |h| h[:start_time]}
 end
 
-p "time_array"
-time_array.map { |h| p h }
+p "time_array_2"
+time_array_2.map { |h| p h }
 
 require 'serialport' # use Kernel::require on windows, works better.
 
@@ -67,14 +68,15 @@ sp = SerialPort.new(port_str, baud_rate, data_bits, stop_bits, parity)
 
 
 execution_start = AbsoluteTime.now
-last_end_time = 100000000
-
+last_end_time = 100
 
 while AbsoluteTime.now < execution_start + last_end_time do
   time_array.each do |hash_array|
-    actual_element = hash_array.select { |h| h[:start_time].to_i < (AbsoluteTime.now - execution_start) && h[:end_time].to_i > (AbsoluteTime.now - execution_start)}
-    # p actual_element.size
-    # p actual_element
+    actual_element = hash_array.select
+    { |h| h[:start_time].to_i < (AbsoluteTime.now - execution_start)
+      && h[:end_time]_to_i > (AbsoluteTime.now - execution_start)}
+    p actual_element.size
+    p actual_element
     ch = actual_element[0][:channel]
     st = actual_element[0][:start_time]
     et = actual_element[0][:end_time]
@@ -83,49 +85,12 @@ while AbsoluteTime.now < execution_start + last_end_time do
     slope = actual_element[0][:slope]
 
     set_level = sl.to_f + (AbsoluteTime.now - st) * slope
-    sp.write(ch.to_s + ' ' + (95 - set_level.to_i).to_s)
-    p (AbsoluteTime.now - execution_start).to_s + " channel: " + (ch.to_s + ' value: ' + (95 - set_level.to_i).to_s).to_s
-    sleep 0.05
-
+    sp.write(ch.to_s + ' ' + (100 - set_level.to_i).to_s)
+    p (ch.to_s + ' ' + (100 - set_level.to_i).to_s)
+    sleep 0.1
   end
 end
 
-#
-# require 'serialport' # use Kernel::require on windows, works better.
-#
-# #params for serial port
-# port_str = "/dev/ttyUSB0"  #may be different for you
-# baud_rate = 115200
-# data_bits = 8
-# stop_bits = 1
-# parity = SerialPort::NONE
-#
-# sp = SerialPort.new(port_str, baud_rate, data_bits, stop_bits, parity)
-#
-# time_array.each do |span|
-#   start_time_c = AbsoluteTime.now
-#   # p 'span'
-#   ch = span[:channel]
-#   st = span[:start_time]
-#   et = span[:end_time]
-#   sl = span[:start_level]
-#   el = span[:end_level]
-#   slope = span[:slope]
-#   # p et.to_i
-#   # p el.to_i
-#   while (AbsoluteTime.now - start_time_b) < et.to_i do
-#     set_level = sl.to_f + (AbsoluteTime.now - start_time_c) * slope
-#     sp.write(ch.to_s + ' ' + (100 - set_level.to_i).to_s)
-#     # p 'set_level : ' + set_level.to_s
-#     sleep 0.1
-#     # p et
-#     # p start_time_b
-#     # p AbsoluteTime.now
-#     # p (AbsoluteTime.now - start_time_b).to_s
-#   end
-#
-#   # p et
-# end
 
 end_time = AbsoluteTime.now
 puts "Function took #{end_time - start_time_b} seconds to complete."
