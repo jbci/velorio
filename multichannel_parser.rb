@@ -82,10 +82,14 @@ while AbsoluteTime.now < execution_start + last_end_time do
     el = actual_element[0][:end_level]
     slope = actual_element[0][:slope]
 
-    set_level = sl.to_f + (AbsoluteTime.now - st) * slope
+    relative_start_time = st
+    ahora = AbsoluteTime.now - execution_start
+    set_level = sl.to_f + (ahora - st.to_f).to_f * slope
     sp.write(ch.to_s + ' ' + (95 - set_level.to_i).to_s)
+    p actual_element
     p (AbsoluteTime.now - execution_start).to_s + " channel: " + (ch.to_s + ' value: ' + (95 - set_level.to_i).to_s).to_s
-    sleep 0.05
+    p relative_start_time
+    sleep 0.06
 
   end
 end
