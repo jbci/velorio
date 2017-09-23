@@ -57,7 +57,7 @@ time_array.map { |h| p h }
 require 'serialport' # use Kernel::require on windows, works better.
 
 #params for serial port
-port_str = "/dev/ttyUSB0"  #may be different for you
+port_str = "/dev/cu.usbserial-A600615j"  #may be different for you
 baud_rate = 115200
 data_bits = 8
 stop_bits = 1
