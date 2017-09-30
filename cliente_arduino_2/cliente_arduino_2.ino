@@ -288,11 +288,11 @@ switch (channel) {
     */
     case 9:
         //motor_down = incomingValue;
-        digitalWrite(motor_down, incomingValue);
+        digitalWrite(motor_down, 1 - incomingValue);
         break;
-    case 10:
+    case 8:
         //CH8 = incomingValue;
-        digitalWrite(motor_up, incomingValue);
+        digitalWrite(motor_up, 1 - incomingValue);
         break;
   }
 
