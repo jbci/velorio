@@ -241,8 +241,36 @@ char buffer[] = {' ',' ',' ',' ',' ',' ',' '}; // Receive up to 7 bytes
 // Serial.println(channel);
 // Serial.print("value: ");
 // Serial.println(incomingValue);
-  Serial.print(".");
+  Serial.print(channel);
+  Serial.print(incomingValue);
+  Serial.print("\n");
+  
+switch (channel) {
+    case 1:
+        CH1 = incomingValue;
+        break;
+    case 2:
+        CH2 = incomingValue;
+        break;
+    case 3:
+        CH3 = incomingValue;
+        break;
+    case 4:
+        CH4 = incomingValue;
+        break;
+    case 5:
+        CH5 = incomingValue;
+        break;
+    case 6:
+        CH6 = incomingValue;
+        break;
+    case 7:
+        CH7 = incomingValue;
+        break;
+    case 8:
+        CH8 = incomingValue;
+        break;
+  }
 
-  CH1 = incomingValue;
 
 }
