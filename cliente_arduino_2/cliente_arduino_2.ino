@@ -16,9 +16,15 @@ unsigned char channel_6 = 9;  // Output to Opto Triac pin, channel 6
 
 unsigned char channel_7 = 10; // Output to Opto Triac pin, channel 7
 
-unsigned char channel_8 = 11; // Output to Opto Triac pin, channel 8
+unsigned char motor_down = 11;
 
-unsigned char CH1, CH2, CH3, CH4, CH5, CH6, CH7, CH8;
+unsigned char motor_up = 12;
+
+
+//unsigned char channel_8 = 11; // Output to Opto Triac pin, channel 8
+
+//unsigned char CH1, CH2, CH3, CH4, CH5, CH6, CH7, CH8;
+unsigned char CH1, CH2, CH3, CH4, CH5, CH6, CH7;
 
 unsigned char CHANNEL_SELECT;
 
@@ -60,7 +66,15 @@ pinMode(channel_6, OUTPUT);// Set AC Load pin as output
 
 pinMode(channel_7, OUTPUT);// Set AC Load pin as output
 
-pinMode(channel_8, OUTPUT);// Set AC Load pin as output
+pinMode(motor_down, OUTPUT);
+
+pinMode(motor_up, OUTPUT);
+
+digitalWrite(motor_down, HIGH);
+
+digitalWrite(motor_up, HIGH);
+
+//pinMode(channel_8, OUTPUT);// Set AC Load pin as output
 
 attachInterrupt(1, zero_crosss_int, RISING);
 
@@ -69,9 +83,7 @@ Timer1.initialize(100); // set a timer of length 100 microseconds for 50Hz or 83
 Timer1.attachInterrupt( timerIsr ); // attach the service routine here
 
 Serial.begin(115200);
-Serial.print(".");
-Serial.print(".");
-Serial.print(".");
+Serial.print("cliente_arduino_2 started");
 
 }
 
@@ -182,7 +194,7 @@ digitalWrite(channel_7, LOW); // triac Off
 }
 
 
-
+/*
 if (CH8==clock_tick)
 
 {
@@ -194,6 +206,7 @@ delayMicroseconds(5); // triac On propogation delay (for 60Hz use 8.33)
 digitalWrite(channel_8, LOW); // triac Off
 
 }
+*/
 
 
 
@@ -242,6 +255,7 @@ char buffer[] = {' ',' ',' ',' ',' ',' ',' '}; // Receive up to 7 bytes
 // Serial.print("value: ");
 // Serial.println(incomingValue);
   Serial.print(channel);
+  Serial.print(" ");
   Serial.print(incomingValue);
   Serial.print("\n");
   
@@ -267,8 +281,18 @@ switch (channel) {
     case 7:
         CH7 = incomingValue;
         break;
+    /*
     case 8:
         CH8 = incomingValue;
+        break;
+    */
+    case 9:
+        //motor_down = incomingValue;
+        digitalWrite(motor_down, incomingValue);
+        break;
+    case 10:
+        //CH8 = incomingValue;
+        digitalWrite(motor_up, incomingValue);
         break;
   }
 

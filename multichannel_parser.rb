@@ -26,16 +26,16 @@ in_files.each do |file|
     time_array_1.push({channel: channel, start_time: start_time, end_time: (start_time.to_f + end_time.to_f).to_s, start_level: start_level, end_level: end_level, slope: slope})
     start_time = start_time.to_f + end_time.to_f
   end
+end
 
 test_array = [
-  {channel: 1, start_time: 0, end_time: 5, start_level: 0, end_level: 100, slope: 20},
-  {channel: 2, start_time: 0, end_time: 7.5, start_level: 0, end_level: 100, slope:13.33},
+  {channel: 1, start_time: 0, end_time: 10, start_level: 0, end_level: 100, slope: 10},
+  {channel: 2, start_time: 0, end_time: 10, start_level: 0, end_level: 100, slope: 10},
   {channel: 3, start_time: 0, end_time: 10, start_level: 0, end_level: 100, slope: 10},
-  {channel: 1, start_time: 5, end_time: 15, start_level: 100, end_level: 30, slope: -7},
-  {channel: 2, start_time: 7.5, end_time: 17.5, start_level: 100, end_level: 30, slope:-7},
-  {channel: 3, start_time: 10, end_time: 20, start_level: 100, end_level: 30, slope: -7}]
+  {channel: 4, start_time: 0, end_time: 10, start_level: 0, end_level: 100, slope: 10},
+  {channel: 5, start_time: 0, end_time: 10, start_level: 0, end_level: 100, slope: 10}]
 
-test_array = time_array_1
+#test_array = time_array_1
 time_array = []
 test_array.uniq { |h| h[:channel] }.each_with_index do |channel, channel_index|
   p "channel: " + channel.to_s
